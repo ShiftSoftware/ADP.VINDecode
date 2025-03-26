@@ -52,5 +52,7 @@ namespace ADP.VINDecode
         public override string ToString() => vin;
         public override bool Equals(object obj) => obj is VIN other && this.vin.Equals(other.vin, System.StringComparison.OrdinalIgnoreCase);
         public override int GetHashCode() => vin.ToUpperInvariant().GetHashCode();
+
+        public static implicit operator string(VIN vin) => vin.ToString();
     }
 }
