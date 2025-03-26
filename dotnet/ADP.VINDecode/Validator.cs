@@ -5,7 +5,12 @@ namespace ADP.VINDecode
 {
     public class Validator
     {
-        public static bool IsValidVIN(string vin)
+        /// <summary>
+        /// Runs the check digit validation on the provided (UPPERCASE) VIN
+        /// </summary>
+        /// <param name="vin">VIN to run the check digit validation. Should be in Uppercase</param>
+        /// <returns></returns>
+        public static bool ValidateCheckDigit(string vin)
         {
             if (string.IsNullOrWhiteSpace(vin) || vin.Length != 17)
                 return false;

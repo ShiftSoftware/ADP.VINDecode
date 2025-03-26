@@ -1,4 +1,6 @@
-﻿namespace ADP.VINDecode
+﻿using System;
+
+namespace ADP.VINDecode
 {
     public class VIN
     {
@@ -8,36 +10,47 @@
         public string CD { get; }
         public string VIS { get; }
 
-        public VIN(string vin)
+        private VIN(string vin)
         {
-            this.vin = vin.ToUpperInvariant();
-
-            if (!Validator.IsValidVIN(this.vin))
-                throw new System.Exception("Invalid VIN");
-
+            this.vin = vin;
             this.WMI = this.vin.Substring(0, 3);
             this.VDS = this.vin.Substring(3, 6);
             this.CD = this.vin.Substring(9, 1);
             this.VIS = this.vin.Substring(9, 8);
         }
 
-        public override string ToString()
+        /// <summary>
+        /// Tries to parse a VIN. Returns true if successful, otherwise false.
+        /// </summary>
+        public static bool TryParse(string vin, out VIN result)
         {
-            return vin; // Return stored uppercase VIN
+            result = null;
+
+            vin = vin.ToUpperInvariant();
+
+            if (!Validator.ValidateCheckDigit(vin))
+                return false;
+
+            result = new VIN(vin);
+
+            return true;
         }
 
-        public override bool Equals(object obj)
+        /// <summary>
+        /// Parses a VIN. Throws an exception if invalid.
+        /// </summary>
+        public static VIN Parse(string vin)
         {
-            if (obj is VIN other)
-            {
-                return this.vin.Equals(other.vin, System.StringComparison.OrdinalIgnoreCase);
-            }
-            return false;
+            vin = vin.ToUpperInvariant();
+
+            if (!Validator.ValidateCheckDigit(vin))
+                throw new ArgumentException("Invalid VIN", nameof(vin));
+
+            return new VIN(vin);
         }
 
-        public override int GetHashCode()
-        {
-            return vin.ToUpperInvariant().GetHashCode(); // Case-insensitive hash
-        }
+        public override string ToString() => vin;
+        public override bool Equals(object obj) => obj is VIN other && this.vin.Equals(other.vin, System.StringComparison.OrdinalIgnoreCase);
+        public override int GetHashCode() => vin.ToUpperInvariant().GetHashCode();
     }
 }
