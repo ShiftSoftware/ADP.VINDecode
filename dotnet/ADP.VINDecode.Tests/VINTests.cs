@@ -177,7 +177,7 @@ namespace ADP.VINDecode.Tests
             Assert.Equal("1FDKF37GXVEB34368", multiLineVinSet.First());
         }
 
-        [Fact(DisplayName = "09. VIN Extractor: Multiple VINs in Multiple lines Without Whitespace (Produces False Positives)")]
+        [Fact(DisplayName = "09. VIN Extractor: Multiple VINs in Multiple lines")]
         public void VinExtractor_MultipleVINsInMultipleLinesWithoutWhiteSpace()
         {
             var vinString =
