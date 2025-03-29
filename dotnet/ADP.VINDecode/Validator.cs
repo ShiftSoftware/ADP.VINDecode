@@ -1,148 +1,84 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace ADP.VINDecode
 {
     public class Validator
     {
+        private static readonly Dictionary<char, int> TransliterationTable = new Dictionary<char, int>
+        {
+            {'0', 0}, 
+            {'1', 1}, 
+            {'2', 2}, 
+            {'3', 3}, 
+            {'4', 4}, 
+            {'5', 5}, 
+            {'6', 6}, 
+            {'7', 7}, 
+            {'8', 8}, 
+            {'9', 9},
+            
+            {'A', 1}, 
+            {'B', 2}, 
+            {'C', 3}, 
+            {'D', 4}, 
+            {'E', 5}, 
+            {'F', 6}, 
+            {'G', 7}, 
+            {'H', 8},
+            
+            {'J', 1}, 
+            {'K', 2}, 
+            {'L', 3}, 
+            {'M', 4}, 
+            {'N', 5}, 
+
+            {'P', 7}, 
+
+            {'R', 9},
+            
+            {'S', 2}, 
+            {'T', 3}, 
+            {'U', 4}, 
+            {'V', 5}, 
+            {'W', 6}, 
+            {'X', 7}, 
+            {'Y', 8}, 
+            {'Z', 9}
+        };
+
+        private static readonly int[] WeightTable = { 8, 7, 6, 5, 4, 3, 2, 10, 0, 9, 8, 7, 6, 5, 4, 3, 2 };
+
         /// <summary>
         /// Runs the check digit validation on the provided (UPPERCASE) VIN
         /// </summary>
         /// <param name="vin">VIN to run the check digit validation. Should be in Uppercase</param>
-        /// <returns></returns>
+        /// <returns>true if the VIN passes the check digit check. Otherwise, false.</returns>
         public static bool ValidateCheckDigit(string vin)
         {
             if (string.IsNullOrWhiteSpace(vin) || vin.Length != 17)
                 return false;
 
-            var TransliterationTable = new Dictionary<char, int>();
-
-            TransliterationTable['0'] = 0;
-            TransliterationTable['1'] = 1;
-            TransliterationTable['2'] = 2;
-            TransliterationTable['3'] = 3;
-            TransliterationTable['4'] = 4;
-            TransliterationTable['5'] = 5;
-            TransliterationTable['6'] = 6;
-            TransliterationTable['7'] = 7;
-            TransliterationTable['8'] = 8;
-            TransliterationTable['9'] = 9;
-            TransliterationTable['A'] = 1;
-            TransliterationTable['B'] = 2;
-            TransliterationTable['C'] = 3;
-            TransliterationTable['D'] = 4;
-            TransliterationTable['E'] = 5;
-            TransliterationTable['F'] = 6;
-            TransliterationTable['G'] = 7;
-            TransliterationTable['H'] = 8;
-            TransliterationTable['J'] = 1;
-            TransliterationTable['K'] = 2;
-            TransliterationTable['L'] = 3;
-            TransliterationTable['M'] = 4;
-            TransliterationTable['N'] = 5;
-            TransliterationTable['P'] = 7;
-            TransliterationTable['R'] = 9;
-            TransliterationTable['S'] = 2;
-            TransliterationTable['T'] = 3;
-            TransliterationTable['U'] = 4;
-            TransliterationTable['V'] = 5;
-            TransliterationTable['W'] = 6;
-            TransliterationTable['X'] = 7;
-            TransliterationTable['Y'] = 8;
-            TransliterationTable['Z'] = 9;
-
-            var WeightTable = new int[] { 8, 7, 6, 5, 4, 3, 2, 10, 0, 9, 8, 7, 6, 5, 4, 3, 2 };
-
-            var sum = 0;
-
-            var valid = true;
-
-            for (var i = 0; i < vin.Length; i++)
-            {
-                var character = vin[i];
-
-                if (!TransliterationTable.Keys.Contains(character))
-                {
-                    valid = false;
-                    break;
-                }
-
-                var value = TransliterationTable[character];
-
-                var weight = WeightTable[i];
-
-                var product = value * weight;
-
-                sum = sum + product;
-            }
-
-            var reminder = (sum % 11);
-
-            var reminderString = reminder.ToString();
-
-            if (reminder == 10)
-                reminderString = "X";
-
-            if (vin.Substring(8, 1) != reminderString)
-            {
-                valid = false;
-            }
-
-            return valid;
+            return ValidateCheckDigit(vin.AsSpan());
         }
 
+
+        /// <summary>
+        /// Runs the check digit validation on the provided (UPPERCASE) VIN
+        /// </summary>
+        /// <param name="vin">VIN to run the check digit validation. Should be in Uppercase</param>
+        /// <returns>true if the VIN passes the check digit check. Otherwise, false.</returns>
         public static bool ValidateCheckDigit(ReadOnlySpan<char> vin)
         {
             if (vin.Length != 17)
                 return false;
 
-            var TransliterationTable = new Dictionary<char, int>();
-
-            TransliterationTable['0'] = 0;
-            TransliterationTable['1'] = 1;
-            TransliterationTable['2'] = 2;
-            TransliterationTable['3'] = 3;
-            TransliterationTable['4'] = 4;
-            TransliterationTable['5'] = 5;
-            TransliterationTable['6'] = 6;
-            TransliterationTable['7'] = 7;
-            TransliterationTable['8'] = 8;
-            TransliterationTable['9'] = 9;
-            TransliterationTable['A'] = 1;
-            TransliterationTable['B'] = 2;
-            TransliterationTable['C'] = 3;
-            TransliterationTable['D'] = 4;
-            TransliterationTable['E'] = 5;
-            TransliterationTable['F'] = 6;
-            TransliterationTable['G'] = 7;
-            TransliterationTable['H'] = 8;
-            TransliterationTable['J'] = 1;
-            TransliterationTable['K'] = 2;
-            TransliterationTable['L'] = 3;
-            TransliterationTable['M'] = 4;
-            TransliterationTable['N'] = 5;
-            TransliterationTable['P'] = 7;
-            TransliterationTable['R'] = 9;
-            TransliterationTable['S'] = 2;
-            TransliterationTable['T'] = 3;
-            TransliterationTable['U'] = 4;
-            TransliterationTable['V'] = 5;
-            TransliterationTable['W'] = 6;
-            TransliterationTable['X'] = 7;
-            TransliterationTable['Y'] = 8;
-            TransliterationTable['Z'] = 9;
-
-            var WeightTable = new int[] { 8, 7, 6, 5, 4, 3, 2, 10, 0, 9, 8, 7, 6, 5, 4, 3, 2 };
-
-            var sum = 0;
+            int sum = 0;
 
             for (int i = 0; i < vin.Length; i++)
             {
-                char character = vin[i];
-
-                if (!TransliterationTable.TryGetValue(character, out int value))
-                    return false; // Invalid character found, return false early.
+                if (!TransliterationTable.TryGetValue(vin[i], out int value))
+                    return false;
 
                 sum += value * WeightTable[i];
             }
@@ -150,7 +86,7 @@ namespace ADP.VINDecode
             int remainder = sum % 11;
             char expectedCheckDigit = (remainder == 10) ? 'X' : (char)('0' + remainder);
 
-            return vin[8] == expectedCheckDigit; // Directly compare the check digit without substring allocation.
+            return vin[8] == expectedCheckDigit;
         }
     }
 }
