@@ -1,11 +1,23 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<RootNamespace>ShiftSoftware.ADP.VINDecode</RootNamespace>
+		<Authors>Shift Software</Authors>
+		<AssemblyName>ShiftSoftware.ADP.VINDecode</AssemblyName>
+		<PackageId>ShiftSoftware.ADP.VINDecode</PackageId>
+		<Version>0.0.1</Version>
+		<IsPackable>True</IsPackable>
+		<PackageIcon>icon.png</PackageIcon>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="System.Memory" Version="4.6.2" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="System.Memory" Version="4.6.2" />
+	</ItemGroup>
 
+	<ItemGroup>
+		<Folder Include="Images\" />
+		<None Include="Images\icon.png" Pack="true" PackagePath="\" />
+		<Folder Include="Images\" />
+	</ItemGroup>
 </Project>
