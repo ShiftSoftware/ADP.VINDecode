@@ -24,11 +24,6 @@ steps:
    condition: or(contains(variables['Build.SourceBranch'], 'refs/tags/release-all'), contains(variables['Build.SourceBranch'], 'refs/tags/release-dotnet')) 
    displayName: 'pack ShiftSoftwareLocalization'
 
- - task: FuncToolsInstaller@0
-   condition: or(contains(variables['Build.SourceBranch'], 'refs/tags/release-all'), contains(variables['Build.SourceBranch'], 'refs/tags/release-dotnet'))
-   inputs:
-    version: 'latest'
-
  - task: NuGetToolInstaller@1
    inputs:
     versionSpec: '6.9.1'
