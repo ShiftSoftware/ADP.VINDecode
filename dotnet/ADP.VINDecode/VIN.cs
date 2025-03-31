@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ADP.VINDecode
+namespace ShiftSoftware.ADP.VINDecode
 {
     public class VIN
     {
@@ -13,19 +13,19 @@ namespace ADP.VINDecode
         private VIN(string vin)
         {
             this.vin = vin;
-            this.WMI = this.vin.Substring(0, 3);
-            this.VDS = this.vin.Substring(3, 6);
-            this.CD = this.vin.Substring(9, 1);
-            this.VIS = this.vin.Substring(9, 8);
+            WMI = this.vin.Substring(0, 3);
+            VDS = this.vin.Substring(3, 6);
+            CD = this.vin.Substring(9, 1);
+            VIS = this.vin.Substring(9, 8);
         }
 
         private VIN(ReadOnlySpan<char> vin)
         {
             this.vin = vin.ToString().ToUpperInvariant();
-            this.WMI = vin.Slice(0, 3).ToString();
-            this.VDS = vin.Slice(3, 6).ToString();
-            this.CD = vin.Slice(9, 1).ToString();
-            this.VIS = vin.Slice(9, 8).ToString();
+            WMI = vin.Slice(0, 3).ToString();
+            VDS = vin.Slice(3, 6).ToString();
+            CD = vin.Slice(9, 1).ToString();
+            VIS = vin.Slice(9, 8).ToString();
         }
 
         /// <summary>
@@ -93,7 +93,7 @@ namespace ADP.VINDecode
         }
 
         public override string ToString() => vin;
-        public override bool Equals(object obj) => obj is VIN other && this.vin.Equals(other.vin, System.StringComparison.OrdinalIgnoreCase);
+        public override bool Equals(object obj) => obj is VIN other && vin.Equals(other.vin, StringComparison.OrdinalIgnoreCase);
         public override int GetHashCode() => vin.ToUpperInvariant().GetHashCode();
 
         public static implicit operator string(VIN vin) => vin.ToString();

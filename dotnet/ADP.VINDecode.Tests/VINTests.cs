@@ -1,4 +1,5 @@
-﻿using Xunit.Abstractions;
+﻿using ShiftSoftware.ADP.VINDecode;
+using Xunit.Abstractions;
 
 namespace ADP.VINDecode.Tests
 {

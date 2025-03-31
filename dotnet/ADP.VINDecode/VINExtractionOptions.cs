@@ -1,4 +1,4 @@
-﻿namespace ADP.VINDecode
+﻿namespace ShiftSoftware.ADP.VINDecode
 {
     public class VINExtractionOptions
     {

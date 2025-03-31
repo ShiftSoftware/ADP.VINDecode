@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ADP.VINDecode
+namespace ShiftSoftware.ADP.VINDecode
 {
     public class VINExtractor
     {
