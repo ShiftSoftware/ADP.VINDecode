@@ -1,0 +1,38 @@
+{
+  "name": "ADP.VINDecoder",
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "test": "vitest",
+    "build": "rollup -c",
+    "test:watch": "vitest --watch"
+  },
+  "exports": {
+    ".": {
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    },
+    "./part1": {
+      "require": "./dist/part1.cjs",
+      "import": "./dist/part1.mjs",
+      "types": "./dist/part1.d.ts"
+    },
+    "./part2": {
+      "require": "./dist/part2.cjs",
+      "import": "./dist/part2.mjs",
+      "types": "./dist/part2.d.ts"
+    }
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^28.0.3",
+    "@rollup/plugin-node-resolve": "^16.0.1",
+    "@rollup/plugin-typescript": "^12.1.2",
+    "rollup": "^4.39.0",
+    "rollup-plugin-dts": "^6.2.1",
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.2",
+    "vitest": "^3.1.1"
+  }
+}
