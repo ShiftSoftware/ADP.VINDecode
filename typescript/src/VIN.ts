@@ -1,11 +1,11 @@
 import Validator from "./Validator"
 
 export default class VIN {
+  readonly vin: string
   public readonly CD: string
   public readonly WMI: string
   public readonly VDS: string
   public readonly VIS: string
-  private readonly vin: string
 
   private constructor(vin: string) {
     this.vin = vin.toUpperCase()
@@ -39,7 +39,7 @@ export default class VIN {
     return new VIN(vin)
   }
 
-  public toString(): string {
+  toString(): string {
     return this.vin
   }
 
@@ -56,8 +56,9 @@ export default class VIN {
   }
 
   // automatic string coercion
-  [Symbol.toPrimitive](hint: string) {
-    if (hint === "string") return this.toString()
-    return this.toString()
+  [Symbol.toPrimitive](hint: string): string | null {
+    if (hint === "string" || hint === "default") return this.vin
+
+    return null
   }
 }

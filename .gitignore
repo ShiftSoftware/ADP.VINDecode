@@ -3,6 +3,10 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
+# Ignore build output inside the typescript folder
+typescript/dist/
+
+
 # User-specific files
 *.rsuser
 *.suo

@@ -6,35 +6,35 @@ import resolve from "@rollup/plugin-node-resolve"
 import typescript from "@rollup/plugin-typescript"
 
 const entries = [
+  { name: "VIN", input: "src/VIN.ts" },
   { name: "index", input: "src/index.ts" },
-  { name: "part1", input: "src/part1.ts" },
-  { name: "part2", input: "src/part2.ts" },
+  { name: "Validator", input: "src/Validator.ts" },
+  { name: "VINExtractor", input: "src/VINExtractor.ts" },
 ]
-
 const jsConfigs: RollupOptions[] = entries.map(({ name, input }) => ({
   input,
   output: [
     {
       file: `dist/${name}.mjs`,
-      format: "es" as const,
+      format: "es",
       sourcemap: true,
     },
     {
       file: `dist/${name}.cjs`,
-      format: "cjs" as const,
+      format: "cjs",
       sourcemap: true,
       exports: "named",
     },
   ],
   plugins: [resolve(), commonjs(), typescript({ tsconfig: "./tsconfig.json" })],
-  external: [],
+  external: [], // Add dependencies here if you ever have any
 }))
 
 const dtsConfigs: RollupOptions[] = entries.map(({ name, input }) => ({
   input,
   output: {
     file: `dist/${name}.d.ts`,
-    format: "es" as const,
+    format: "es",
   },
   plugins: [dts()],
 }))

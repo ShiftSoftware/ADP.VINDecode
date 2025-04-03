@@ -10,19 +10,32 @@
   },
   "exports": {
     ".": {
-      "require": "./dist/index.cjs",
       "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs",
       "types": "./dist/index.d.ts"
     },
-    "./part1": {
-      "require": "./dist/part1.cjs",
-      "import": "./dist/part1.mjs",
-      "types": "./dist/part1.d.ts"
+    "./Validator": {
+      "import": "./dist/Validator.mjs",
+      "require": "./dist/Validator.cjs",
+      "types": "./dist/Validator.d.ts"
     },
-    "./part2": {
-      "require": "./dist/part2.cjs",
-      "import": "./dist/part2.mjs",
-      "types": "./dist/part2.d.ts"
+    "./VIN": {
+      "import": "./dist/VIN.mjs",
+      "require": "./dist/VIN.cjs",
+      "types": "./dist/VIN.d.ts"
+    },
+    "./VINExtractor": {
+      "import": "./dist/VINExtractor.mjs",
+      "require": "./dist/VINExtractor.cjs",
+      "types": "./dist/VINExtractor.d.ts"
+    },
+    "./normalizeInput": {
+      "import": "./dist/VINExtractor.mjs",
+      "require": "./dist/VINExtractor.cjs"
+    },
+    "./findVINs": {
+      "import": "./dist/VINExtractor.mjs",
+      "require": "./dist/VINExtractor.cjs"
     }
   },
   "devDependencies": {
@@ -34,5 +47,8 @@
     "tsx": "^4.19.3",
     "typescript": "^5.8.2",
     "vitest": "^3.1.1"
-  }
+  },
+  "files": [
+    "dist"
+  ]
 }
