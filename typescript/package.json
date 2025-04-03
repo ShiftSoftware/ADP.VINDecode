@@ -5,8 +5,8 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "test": "vitest",
-    "build": "rollup -c",
-    "test:watch": "vitest --watch"
+    "test:watch": "vitest --watch",
+    "build": "tsx node_modules/rollup/dist/bin/rollup -c"
   },
   "exports": {
     ".": {
@@ -50,5 +50,8 @@
   },
   "files": [
     "dist"
-  ]
+  ],
+  "dependencies": {
+    "tslib": "^2.8.1"
+  }
 }

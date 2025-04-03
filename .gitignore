@@ -6,6 +6,10 @@
 # Ignore build output inside the typescript folder
 typescript/dist/
 
+# macOS system files
+.DS_Store
+**/.DS_Store
+
 
 # User-specific files
 *.rsuser

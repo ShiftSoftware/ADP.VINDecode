@@ -27,7 +27,7 @@ const jsConfigs: RollupOptions[] = entries.map(({ name, input }) => ({
     },
   ],
   plugins: [resolve(), commonjs(), typescript({ tsconfig: "./tsconfig.json" })],
-  external: [], // Add dependencies here if you ever have any
+  external: [],
 }))
 
 const dtsConfigs: RollupOptions[] = entries.map(({ name, input }) => ({
