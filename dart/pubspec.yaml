@@ -1,5 +1,5 @@
 name: shift_software_adp_vin_decode
-description: A starting point for Dart libraries or applications.
+description: Shift Software ADP VIN Decode Package for Dart
 version: 0.0.1
 homepage: https://github.com/ShiftSoftware/ADP.VINDecode
 repository: https://github.com/ShiftSoftware/ADP.VINDecode
