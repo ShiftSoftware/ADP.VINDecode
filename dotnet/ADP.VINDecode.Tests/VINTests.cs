@@ -1,4 +1,6 @@
 ﻿using ShiftSoftware.ADP.VINDecode;
+using System.Globalization;
+using System.Text;
 using Xunit.Abstractions;
 
 namespace ADP.VINDecode.Tests
@@ -15,6 +17,36 @@ namespace ADP.VINDecode.Tests
         [Fact(DisplayName = "01. Equality")]
         public void Equality()
         {
+            //var text = "JTFUA8ÄP508014798";
+            //string normalized = text.Normalize(NormalizationForm.FormD);
+            //string cleaned = new string(normalized.Where(c => CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark).ToArray());
+
+            //output.WriteLine(cleaned);
+
+            //Assert.False(VIN.TryParse(text, out _));
+
+            //Assert.True(VIN.TryParse(cleaned, out _));
+
+            //var text2 = "JTFUAŠÄP50801478";
+            //string normalized2 = text2.Normalize(NormalizationForm.FormD);
+            //string cleaned2 = new string(normalized2.Where(c => CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark).ToArray());
+
+            //output.WriteLine(cleaned2);
+
+            //Assert.False(VIN.TryParse(text2, out _));
+
+            //Assert.True(VIN.TryParse(cleaned2, out _));
+
+            //var badRead = "JTFUABẮPSO801478";
+            //var candidates = VINMutator.GenerateMutations(badRead).ToList();
+
+            //foreach (var c in candidates)
+            //{
+            //    output.WriteLine($"{c.Value} | Score: {c.Score}, Mutations: {c.MutationCount}");
+            //}
+
+            //return;
+
             var vinString1 = "19XFB2F57EE209415";
             var vinString2 = "19xfB2F57Ee209415";
             var vinString3 = "19XFb2F57eE209415";
@@ -45,7 +77,7 @@ namespace ADP.VINDecode.Tests
         public void Components()
         {
             VIN.TryParse("19XFB2F57EE209415", out VIN vin);
-            
+
             Assert.Equal("19X", vin.WMI);
             Assert.Equal("FB2F57", vin.VDS);
             Assert.Equal("E", vin.CD);
@@ -75,13 +107,13 @@ namespace ADP.VINDecode.Tests
         public void VinExtractor_LeadingAndTrailingText()
         {
             var vinString = "VIN: 1GKEK63U83J235900 (Brand Name)";
-            
+
             var vinSet = VINExtractor.FindVINs(vinString);
-            
+
             Assert.Single(vinSet);
-            
+
             var vin = vinSet.First();
-            
+
             Assert.Equal("1GKEK63U83J235900", vin);
         }
 
@@ -163,7 +195,7 @@ namespace ADP.VINDecode.Tests
 
             Assert.Equal("1FDKF37GXVEB34368", vinSet.First());
 
-            var multiLineString = 
+            var multiLineString =
             """
             Engine Size: 4.0 L
             VIN: 1FDKF37GXVEB34368 - 2025-03-26
@@ -216,15 +248,75 @@ namespace ADP.VINDecode.Tests
             Assert.Empty(VINExtractor.FindVINs(vinString));
 
             var vinSet = VINExtractor.FindVINs(
-                new VINExtractionOptions { MutateSpecialCharacters = true },
+                new VINExtractionOptions { MutationConfidence = MutationConfidence.High },
                 vinString
             );
-            
+
             Assert.Single(vinSet);
-            
+
             var vin = vinSet.First();
-            
+
             Assert.Equal("1GCHK23608F181070", vin);
+        }
+
+        [Fact(DisplayName = "11. VIN Mutator")]
+        public void VinExtractor_Mutator()
+        {
+            var vins = new List<string>
+            {
+                "JTFUASAP508014798",
+                //"JTFUABẮP508014798",
+                //"JTFUAŠÄP508014798",
+                //"JTFUA&AP508014798",
+            };
+
+            foreach (var vinReading in vins)
+            {
+                var vinSet = VINExtractor.FindVINs(
+                    new VINExtractionOptions { MutationConfidence = MutationConfidence.Low },
+                    vinReading
+                );
+
+                if (vinSet.Count == 0)
+                {
+                    this.output.WriteLine($"No VIN found for {vinReading}");
+                }
+
+                Assert.Single(vinSet);
+
+                var vin = vinSet.First();
+                           //"JTFUASAP508014798"
+                           //"JTFUASAP50B014798"
+                Assert.Equal("JTFUA8AP508014798", vin);
+            }
+        }
+
+        [Fact(DisplayName = "12. VIN Mutator: Multiple Candidates")]
+        public void VinExtractor_Mutator_MultipleCandidates()
+        {
+            var lines = System.IO.File.ReadAllLines(@"C:\Web\New Text Document.txt");
+
+            var uniqueLines = lines.Distinct();
+
+            var parsed = uniqueLines.Select(x => new
+            {
+                From = x[0],
+                To = x[2],
+            });
+
+            var cleaned = parsed
+                .Where(x => x.To != 'I' && x.To != 'Q' && x.To != 'O')
+                .Where(x => x.From != 'I' && x.From != 'Q' && x.From != 'O')
+                .ToList();
+
+            //this.output.WriteLine($"Total: {cleaned.Count}");
+
+            //this.output.WriteLine(string.Join("\r\n", cleaned.Select(x=> $"{x.From},{x.To}")));
+
+            foreach (var item in cleaned)
+            {
+                this.output.WriteLine($"new CharacterMutation {{ From = '{item.From}', To = '{item.To}', Confidence = MutationConfidence.Low }},");
+            }
         }
     }
 }

@@ -11,6 +11,8 @@
         /// Replaces unallowed VIN characters with their allowed counterparts.
         /// I -> 1, O -> 0, Q -> 0
         /// </summary>
-        public bool MutateSpecialCharacters { get; set; }
+        //public bool MutateSpecialCharacters { get; set; }
+
+        public MutationConfidence MutationConfidence { get; set; } = MutationConfidence.Absolute;
     }
 }
