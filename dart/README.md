@@ -6,7 +6,7 @@ VIN validation, parsing, and extraction for Dart and Flutter. Pure Dart — no p
 
 ```yaml
 dependencies:
-  shift_software_adp_vin_decode: ^0.0.1
+  shift_software_adp_vin_decode: ^0.0.2
 ```
 
 Or straight from the repo:
@@ -25,13 +25,16 @@ dart pub get
 
 ## Usage
 
-The package has no barrel file — import the sources you need directly:
+A single import brings in `VIN`, `Validator`, `VINExtractor`, and `VINExtractionOptions`:
 
 ```dart
-import 'package:shift_software_adp_vin_decode/src/vin.dart';
-import 'package:shift_software_adp_vin_decode/src/validator.dart';
-import 'package:shift_software_adp_vin_decode/src/vin_extractor.dart';
+import 'package:shift_software_adp_vin_decode/shift_software_adp_vin_decode.dart';
 ```
+
+> Versions before 0.0.2 had no library entry point and required importing
+> `package:shift_software_adp_vin_decode/src/…` directly. Those paths still
+> resolve, but use the import above — `src/` is private and may be
+> reorganized without a major version bump.
 
 ### Validate
 

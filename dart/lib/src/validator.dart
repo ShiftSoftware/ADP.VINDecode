@@ -1,5 +1,3 @@
-library shift_software_adp_vin_decode;
-
 class Validator {
    // Transliteration Table
     static final Map<String, int> transliterationTable = {

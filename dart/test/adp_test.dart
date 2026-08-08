@@ -1,6 +1,4 @@
-import 'package:shift_software_adp_vin_decode/src/vin.dart';
-import 'package:shift_software_adp_vin_decode/src/vin_extractor.dart';
-import 'package:shift_software_adp_vin_decode/src/validator.dart';
+import 'package:shift_software_adp_vin_decode/shift_software_adp_vin_decode.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -39,7 +37,7 @@ void main() {
     expect(vin, isNotNull);
 
     print(vin!.wmi);
-    expect(vin!.wmi, equals('19X'));
+    expect(vin.wmi, equals('19X'));
 
     print(vin.vds);
     expect(vin.vds, equals('FB2F57'));
@@ -109,7 +107,7 @@ void main() {
     final vinString1 = "5N1AA08A15N732965";
     final vinString2 = "1FMCU9G99FUA05110";
 
-    final combinedVINLine = "KKJ948${vinString1}${vinString2}113948LJH";
+    final combinedVINLine = "KKJ948$vinString1${vinString2}113948LJH";
 
     final vinSet = VINExtractor.findVINsFromString(combinedVINLine).toList();
 
@@ -128,7 +126,7 @@ void main() {
 
     // Same test with whitespace does not produce false positives
     final withWhitespace = VINExtractor.findVINsFromString(
-        "KKJ948 ${vinString1}${vinString2} 113948LJH");
+        "KKJ948 $vinString1$vinString2 113948LJH");
     expect(withWhitespace.length, equals(2));
   });
 
